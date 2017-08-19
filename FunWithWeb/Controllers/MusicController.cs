@@ -12,7 +12,7 @@ namespace FunWithWeb.Controllers
         public ActionResult Music()
         {
             ViewBag.Message = "I would like to try and embed a music player here.";
-            ViewBag.Album = "Remembering Youth by caffeinedrummer";
+            ViewBag.AlbumName = "Remembering Youth by caffeinedrummer";
             ViewBag.AlbumLink = "http://caffeinedrummer.bandcamp.com/album/remembering-youth";
             ViewBag.AlbumNumber = 3634506203;
 
