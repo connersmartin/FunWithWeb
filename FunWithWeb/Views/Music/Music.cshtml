@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Point B";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+
+<div>
+    <iframe style="border: 0; width: 400px; height: 472px;" src="https://bandcamp.com/EmbeddedPlayer/album=@ViewBag.AlbumNumber/size=large/bgcol=ffffff/linkcol=0687f5/artwork=small/transparent=true/" seamless><a href=@ViewBag.AlbumLink>@ViewBag.Album</a></iframe>
+</div>

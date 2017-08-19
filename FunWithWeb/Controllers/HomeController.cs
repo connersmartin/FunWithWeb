@@ -13,16 +13,10 @@ namespace FunWithWeb.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
-
-        public ActionResult Contact()
+        public ActionResult API()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "I'm going to try and play with APIs here.";
 
             return View();
         }
