@@ -1,4 +1,5 @@
-﻿@{
+﻿ 
+@{
     ViewBag.Title = "Point B";
 }
 <h2>@ViewBag.Title.</h2>
@@ -6,6 +7,10 @@
 
 <p>Use this area to provide additional information.</p>
 
-<div>
-    <iframe style="border: 0; width: 400px; height: 472px;" src="https://bandcamp.com/EmbeddedPlayer/album=@ViewBag.AlbumNumber/size=large/bgcol=ffffff/linkcol=0687f5/artwork=small/transparent=true/" seamless><a href=@ViewBag.AlbumLink>@ViewBag.AlbumName</a></iframe>
-</div>
+@foreach(var item in ViewBag.Albums)
+{
+    <div style="list-style-type:none; display:inline; float:left;">
+        <iframe style="border: 0; width: 400px; height: 472px;" src="https://bandcamp.com/EmbeddedPlayer/album=@item.AlbumNumber/size=large/bgcol=ffffff/linkcol=0687f5/artwork=small/transparent=true/" seamless><a href=@item.AlbumLink>@item.AlbumName</a></iframe>
+    </div>
+}
+<div style="clear:both;"></div>

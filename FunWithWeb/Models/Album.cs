@@ -11,12 +11,13 @@ namespace FunWithWeb.Models
         public string AlbumLink { get; set; }
         public long AlbumNumber { get; set; }
 
-        public Album()
+        public Album(string albumName, string albumLink, long albumNumber)
         {
-            AlbumName = "";
-            AlbumLink = "";
-            AlbumNumber = 0;
+            AlbumName = albumName;
+            AlbumLink = albumLink;
+            AlbumNumber = albumNumber;
         }
+
         
     }
 }

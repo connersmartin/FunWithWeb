@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.music li {
+   float: left;
+   display:inline;
+   list-style-type: none;
+}
