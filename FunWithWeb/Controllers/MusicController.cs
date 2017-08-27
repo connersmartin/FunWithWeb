@@ -9,19 +9,15 @@ namespace FunWithWeb.Controllers
 {
     public class MusicController : Controller
     {
-       
+
         // GET: Music
         public ActionResult Music()
         {
-            ViewBag.Message = "I would like to try and embed a music player here.";
-
             AddAlbum("Remembering Youth by caffeinedrummer", "http://caffeinedrummer.bandcamp.com/album/remembering-youth", 3634506203);
             AddAlbum("Marvels by James Rabbit", "http://jamesrabbit.bandcamp.com/album/marvels", 3998331254);
-            AddAlbum("Totally Fake Data", "http://reddit.com", 1234567890);
+            AddAlbum("Fiji by Modern American Theatre", "http://modernamericantheatre.bandcamp.com/album/fiji", 76860617);
 
-            ViewBag.Albums = albumCollection;
-
-            return View();
+            return View(albumCollection);
         }
 
         public List<Album> albumCollection = new List<Album>();

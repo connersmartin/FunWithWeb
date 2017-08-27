@@ -1,13 +1,10 @@
-﻿ 
-@{
-    ViewBag.Title = "Point B";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model List<FunWithWeb.Models.Album>
 
-<p>Use this area to provide additional information.</p>
+<h2>Embedded Music Players</h2>
+<h3>Have a Listen!</h3>
 
-@foreach(var item in ViewBag.Albums)
+
+@foreach(var item in Model)
 {
     <div style="list-style-type:none; display:inline; float:left;">
         <iframe style="border: 0; width: 400px; height: 472px;" src="https://bandcamp.com/EmbeddedPlayer/album=@item.AlbumNumber/size=large/bgcol=ffffff/linkcol=0687f5/artwork=small/transparent=true/" seamless><a href=@item.AlbumLink>@item.AlbumName</a></iframe>

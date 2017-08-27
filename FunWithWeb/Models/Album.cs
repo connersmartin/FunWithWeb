@@ -7,6 +7,7 @@ namespace FunWithWeb.Models
 {
     public class Album
     {
+        
         public string AlbumName { get; set; }
         public string AlbumLink { get; set; }
         public long AlbumNumber { get; set; }
