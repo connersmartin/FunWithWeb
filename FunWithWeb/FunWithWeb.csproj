@@ -194,6 +194,9 @@
     <Content Include="Views\Home\API.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\DataTest\Index.cshtml" />
+    <Content Include="Views\DataTest\Create.cshtml" />
+    <Content Include="Views\DataTest\Edit.cshtml" />
+    <Content Include="Views\DataTest\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
