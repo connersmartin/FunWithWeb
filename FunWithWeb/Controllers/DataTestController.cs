@@ -92,6 +92,7 @@ namespace FunWithWeb.Controllers
             return View();
         }
 
+
         public ActionResult Detail()
         {
             return View();
@@ -101,7 +102,8 @@ namespace FunWithWeb.Controllers
         {
             return null;
         }
-        //Add the info... right?
+
+        //Add the info
         public void AddInfo(DataTest newInfo)
         {
 
@@ -114,7 +116,7 @@ namespace FunWithWeb.Controllers
 
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = conn;
-                cmd.CommandText = "INSERT INTO datatest (@Artist, @Album, @TrackName, @Drummer, @Year)";
+                cmd.CommandText = "INSERT INTO datatest (Artist, Album, TrackName, Drummer, Year) VALUES (@Artist, @Album, @TrackName, @Drummer, @Year)";
                 cmd.Prepare();
 
                 cmd.Parameters.AddWithValue("@Artist", newInfo.Artist);

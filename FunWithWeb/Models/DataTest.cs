@@ -26,6 +26,8 @@ namespace FunWithWeb.Models
             Year = year;
         }
 
+        public DataTest() { }
+
         
     }
 }
