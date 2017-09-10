@@ -11,14 +11,16 @@ namespace FunWithWeb.Models
         public const string cs = @"server=localhost;userid=root;
             password=mUR@D3ra73;database=datatest";
 
+        public int ID { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }
         public string TrackName { get; set; }
         public string Drummer { get; set; }
         public int Year { get; set; }
 
-        public DataTest(string artist, string album, string trackName, string drummer, int year)
+        public DataTest(int id, string artist, string album, string trackName, string drummer, int year)
         {
+            ID = id;
             Artist = artist;
             Album = album;
             TrackName = trackName;

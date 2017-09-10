@@ -35,7 +35,7 @@ namespace FunWithWeb.Controllers
                 //while there is data
                 while (rdr.Read())
                 {
-                    TestData.Add(new DataTest(rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5)));
+                    TestData.Add(new DataTest(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5)));
                 }
 
             }
@@ -58,12 +58,7 @@ namespace FunWithWeb.Controllers
             }
 
             //This is just test data.
-
-            
-            DataTest Testing = new DataTest("The Police", "Outlandos d\'Amour", "Roxanne", "Stewart Copland", 1978);
-
-            TestData.Add(Testing);
-
+          
             return View(TestData);
         }
 
@@ -90,6 +85,21 @@ namespace FunWithWeb.Controllers
         public ActionResult Edit()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(DataTest newDataTest)
+        {
+            if (ModelState.IsValid)
+            {
+                EditInfo(newDataTest);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(newDataTest);
+            }
         }
 
 
@@ -141,5 +151,58 @@ namespace FunWithWeb.Controllers
             }
         }
 
+
+        //Edit the info maybe?
+
+        public void EditInfo(DataTest editInfo)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tr = null;
+
+            try
+            {
+                conn = new MySqlConnection(cs);
+                conn.Open();
+                tr = conn.BeginTransaction();
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.Transaction = tr;
+
+                cmd.CommandText = "UPDATE datatest SET Artist = @Artist, Album = @Album, TrackName = @TrackName, Drummer = @Drummer, Year = @Year  WHERE Id=" + editInfo.ID;
+                cmd.Parameters.AddWithValue("@Artist", editInfo.Artist);
+                cmd.Parameters.AddWithValue("@Album", editInfo.Album);
+                cmd.Parameters.AddWithValue("@TrackName", editInfo.TrackName);
+                cmd.Parameters.AddWithValue("@Drummer", editInfo.Drummer);
+                cmd.Parameters.AddWithValue("@Year", editInfo.Year);
+                cmd.ExecuteNonQuery();
+
+                tr.Commit();
+
+            }
+            catch (MySqlException ex)
+            {
+                try
+                {
+                    tr.Rollback();
+
+                }
+                catch (MySqlException ex1)
+                {
+                    Console.WriteLine("Error: {0}", ex1.ToString());
+                }
+
+                Console.WriteLine("Error: {0}", ex.ToString());
+
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        
+        }
     }
 }
