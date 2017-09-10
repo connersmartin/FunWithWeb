@@ -103,14 +103,56 @@ namespace FunWithWeb.Controllers
         }
 
 
-        public ActionResult Detail()
+        public ActionResult Detail(DataTest viewDataTest)
         {
-            return View();
+            MySqlConnection conn = null;
+            MySqlDataReader rdr = null;
+            DataTest viewData = new DataTest();
+           
+            try
+            {
+                //open the connection
+                conn = new MySqlConnection(cs);
+                conn.Open();
+
+                //sql query
+                string stm = "SELECT * FROM datatest WHERE ID = " + viewDataTest.ID;
+                MySqlCommand cmd = new MySqlCommand(stm, conn);
+                rdr = cmd.ExecuteReader();
+
+                //while there is data
+                while (rdr.Read())
+                {
+                    viewData = new DataTest(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5));
+                }
+
+            }
+            catch (MySqlException ex)
+            {
+                //TODO figure out how to display user friendly error messages
+                throw;
+            }
+            finally //don't forget to close connections
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+            
+            return View(viewData);
         }
 
-        public ActionResult Delete()
+        public ActionResult Delete(DataTest delDataTest)
         {
-            return null;
+            DeleteInfo(delDataTest);
+
+            return RedirectToAction("Index");
         }
 
         //Add the info
@@ -152,7 +194,7 @@ namespace FunWithWeb.Controllers
         }
 
 
-        //Edit the info maybe?
+        //Edit the info
 
         public void EditInfo(DataTest editInfo)
         {
@@ -203,6 +245,54 @@ namespace FunWithWeb.Controllers
                 }
             }
         
+        }
+
+        //Delete the info
+
+        public void DeleteInfo(DataTest delInfo)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tr = null;
+
+            try
+            {
+                conn = new MySqlConnection(cs);
+                conn.Open();
+                tr = conn.BeginTransaction();
+
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = conn;
+                cmd.Transaction = tr;
+
+                cmd.CommandText = "DELETE from datatest  WHERE Id=" + delInfo.ID;
+               
+                cmd.ExecuteNonQuery();
+
+                tr.Commit();
+
+            }
+            catch (MySqlException ex)
+            {
+                try
+                {
+                    tr.Rollback();
+
+                }
+                catch (MySqlException ex1)
+                {
+                    Console.WriteLine("Error: {0}", ex1.ToString());
+                }
+
+                Console.WriteLine("Error: {0}", ex.ToString());
+
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }
