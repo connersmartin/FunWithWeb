@@ -8,9 +8,6 @@ namespace FunWithWeb.Models
 {
     public class DataTest
     {
-        public const string cs = @"server=localhost;userid=root;
-            password=mUR@D3ra73;database=datatest";
-
         public int ID { get; set; }
         public string Artist { get; set; }
         public string Album { get; set; }

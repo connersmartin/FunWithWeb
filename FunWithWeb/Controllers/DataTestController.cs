@@ -15,51 +15,7 @@ namespace FunWithWeb.Controllers
         // GET: DataTest
         public ActionResult Index()
         {
-
-            List<DataTest> TestData = new List<DataTest>();
-
-            MySqlConnection conn = null;
-            MySqlDataReader rdr = null;
-
-            try
-            {
-                //open the connection
-                conn = new MySqlConnection(cs);
-                conn.Open();
-
-                //sql query
-                string stm = "SELECT * FROM datatest";
-                MySqlCommand cmd = new MySqlCommand(stm, conn);
-                rdr = cmd.ExecuteReader();
-
-                //while there is data
-                while (rdr.Read())
-                {
-                    TestData.Add(new DataTest(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5)));
-                }
-
-            }
-            catch (MySqlException ex)
-            {
-                //TODO figure out how to display user friendly error messages
-                throw;
-            }
-            finally //don't forget to close connections
-            {
-                if (rdr != null)
-                {
-                    rdr.Close();
-                }
-
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-
-            //This is just test data.
-          
-            return View(TestData);
+            return View(ViewInfo(0, "all"));
         }
 
         public ActionResult Create()
@@ -82,9 +38,11 @@ namespace FunWithWeb.Controllers
             }
         }
 
-        public ActionResult Edit()
+
+        public ActionResult Edit(int id)
         {
-            return View();
+
+            return View(ViewInfo(id, "one").FirstOrDefault());
         }
 
         [HttpPost]
@@ -92,7 +50,7 @@ namespace FunWithWeb.Controllers
         {
             if (ModelState.IsValid)
             {
-                EditInfo(newDataTest);
+                EditInfo(newDataTest,  "edit");
 
                 return RedirectToAction("Index");
             }
@@ -103,12 +61,28 @@ namespace FunWithWeb.Controllers
         }
 
 
-        public ActionResult Detail(DataTest viewDataTest)
+        public ActionResult Detail(int id)
+        {
+                      
+            return View(ViewInfo(id, "one").FirstOrDefault());
+        }
+
+        public ActionResult Delete(DataTest delDataTest)
+        {
+            EditInfo(delDataTest, "delete");
+
+            return RedirectToAction("Index");
+        }
+
+        //View info
+
+        public List<DataTest> ViewInfo(int id, string viewAction)
         {
             MySqlConnection conn = null;
             MySqlDataReader rdr = null;
-            DataTest viewData = new DataTest();
-           
+            List<DataTest> viewData = new List<DataTest>();
+            string stm = "";
+
             try
             {
                 //open the connection
@@ -116,14 +90,23 @@ namespace FunWithWeb.Controllers
                 conn.Open();
 
                 //sql query
-                string stm = "SELECT * FROM datatest WHERE ID = " + viewDataTest.ID;
+
+                if (viewAction == "all")
+                {
+                    stm = "SELECT * FROM datatest";
+                }
+                else
+                {
+                    stm = "SELECT * FROM datatest WHERE ID = " + id;
+
+                }
                 MySqlCommand cmd = new MySqlCommand(stm, conn);
                 rdr = cmd.ExecuteReader();
 
                 //while there is data
                 while (rdr.Read())
                 {
-                    viewData = new DataTest(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5));
+                    viewData.Add(new DataTest(rdr.GetInt32(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetInt32(5)));
                 }
 
             }
@@ -144,18 +127,11 @@ namespace FunWithWeb.Controllers
                     conn.Close();
                 }
             }
-            
-            return View(viewData);
+
+            return viewData;
         }
 
-        public ActionResult Delete(DataTest delDataTest)
-        {
-            DeleteInfo(delDataTest);
-
-            return RedirectToAction("Index");
-        }
-
-        //Add the info
+        //Add info
         public void AddInfo(DataTest newInfo)
         {
 
@@ -193,10 +169,9 @@ namespace FunWithWeb.Controllers
             }
         }
 
+        //Edit info
 
-        //Edit the info
-
-        public void EditInfo(DataTest editInfo)
+        public void EditInfo(DataTest editInfo, string editAction)
         {
             MySqlConnection conn = null;
             MySqlTransaction tr = null;
@@ -211,12 +186,20 @@ namespace FunWithWeb.Controllers
                 cmd.Connection = conn;
                 cmd.Transaction = tr;
 
-                cmd.CommandText = "UPDATE datatest SET Artist = @Artist, Album = @Album, TrackName = @TrackName, Drummer = @Drummer, Year = @Year  WHERE Id=" + editInfo.ID;
-                cmd.Parameters.AddWithValue("@Artist", editInfo.Artist);
-                cmd.Parameters.AddWithValue("@Album", editInfo.Album);
-                cmd.Parameters.AddWithValue("@TrackName", editInfo.TrackName);
-                cmd.Parameters.AddWithValue("@Drummer", editInfo.Drummer);
-                cmd.Parameters.AddWithValue("@Year", editInfo.Year);
+                if (editAction == "delete")
+                {
+                    cmd.CommandText = "DELETE from datatest  WHERE Id=" + editInfo.ID;
+                }
+                else
+                {
+                    cmd.CommandText = "UPDATE datatest SET Artist = @Artist, Album = @Album, TrackName = @TrackName, Drummer = @Drummer, Year = @Year  WHERE Id=" + editInfo.ID;
+                    cmd.Parameters.AddWithValue("@Artist", editInfo.Artist);
+                    cmd.Parameters.AddWithValue("@Album", editInfo.Album);
+                    cmd.Parameters.AddWithValue("@TrackName", editInfo.TrackName);
+                    cmd.Parameters.AddWithValue("@Drummer", editInfo.Drummer);
+                    cmd.Parameters.AddWithValue("@Year", editInfo.Year);                        
+                }
+
                 cmd.ExecuteNonQuery();
 
                 tr.Commit();
@@ -247,52 +230,7 @@ namespace FunWithWeb.Controllers
         
         }
 
-        //Delete the info
+      
 
-        public void DeleteInfo(DataTest delInfo)
-        {
-            MySqlConnection conn = null;
-            MySqlTransaction tr = null;
-
-            try
-            {
-                conn = new MySqlConnection(cs);
-                conn.Open();
-                tr = conn.BeginTransaction();
-
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.Connection = conn;
-                cmd.Transaction = tr;
-
-                cmd.CommandText = "DELETE from datatest  WHERE Id=" + delInfo.ID;
-               
-                cmd.ExecuteNonQuery();
-
-                tr.Commit();
-
-            }
-            catch (MySqlException ex)
-            {
-                try
-                {
-                    tr.Rollback();
-
-                }
-                catch (MySqlException ex1)
-                {
-                    Console.WriteLine("Error: {0}", ex1.ToString());
-                }
-
-                Console.WriteLine("Error: {0}", ex.ToString());
-
-            }
-            finally
-            {
-                if (conn != null)
-                {
-                    conn.Close();
-                }
-            }
-        }
     }
 }
