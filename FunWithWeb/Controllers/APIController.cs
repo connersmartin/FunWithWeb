@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FunWithWeb.Models.Spotify;
 
 namespace FunWithWeb.Controllers
 {
@@ -11,7 +12,14 @@ namespace FunWithWeb.Controllers
         // GET: API
         public ActionResult Index()
         {
-            return View();
+            Spotify s = new Spotify();
+
+            s.Artist = "Test";
+            s.TrackName = s.Track();
+
+            return View(s);
         }
+
+
     }
 }
