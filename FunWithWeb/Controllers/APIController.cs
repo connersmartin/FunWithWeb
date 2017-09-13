@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace FunWithWeb.Controllers
 {
-    public class HomeController : Controller
+    public class APIController : Controller
     {
+        // GET: API
         public ActionResult Index()
         {
             return View();
