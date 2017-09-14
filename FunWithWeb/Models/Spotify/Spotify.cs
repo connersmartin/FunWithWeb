@@ -27,11 +27,8 @@ namespace FunWithWeb.Models.Spotify
 
         public string Track()
         {
-            _spotify = new SpotifyWebAPI()
-            {
-                UseAuth = false, //This will disable Authentication.
-            };
-                FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
+            FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
+
             if (track.Name != null)
             {
                 return track.Name; //Yeay! We just printed a tracks name.
@@ -40,6 +37,47 @@ namespace FunWithWeb.Models.Spotify
             {
                 return track.Error.Message;
             }
+        }
+
+        public string Performer()
+        {
+            FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
+
+            if (track.Artists != null)
+            {
+                return track.Artists.FirstOrDefault().Name; //Yeay! We just printed a tracks artist.
+            }
+            else
+            {
+                return track.Error.Message;
+            }
+        }
+
+        //Auth prob 1. a better way to implement, 2. a better place to put this, 3. need to figure out exactly how this works
+
+        public async void SpotAuth()
+        {
+            WebAPIFactory webApiFactory = new WebAPIFactory(
+               "http://localhost",
+               8888,
+               "873024ff9d744bef8d16db221ca61ab1",
+               Scope.UserReadPrivate,
+               TimeSpan.FromSeconds(20)
+               );
+
+            try
+            {
+                //This will open the user's browser and returns once
+                //the user is authorized.
+                _spotify = await webApiFactory.GetWebApi();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if (_spotify == null)
+                return;
         }
 
 

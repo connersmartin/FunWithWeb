@@ -211,6 +211,7 @@
     <Content Include="Views\DataTest\Create.cshtml" />
     <Content Include="Views\DataTest\Edit.cshtml" />
     <Content Include="Views\DataTest\Detail.cshtml" />
+    <Content Include="Views\API\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
