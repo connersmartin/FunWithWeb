@@ -25,6 +25,10 @@ namespace FunWithWeb.Models.Spotify
 
         private static SpotifyWebAPI _spotify;
 
+        //I think searching and returning stuff will be my goal
+        //https://developer.spotify.com/web-api/console/get-search-item/
+        //I think that will be fun to try
+
         public string Track()
         {
             FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
