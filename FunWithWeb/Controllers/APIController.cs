@@ -19,16 +19,19 @@ namespace FunWithWeb.Controllers
          * search from DataTest info
          */
 
+        public ActionResult Index()
+        {
+
+            return View();
+        }
 
         // GET: API
         // just figuring out how the API works 
-        public async Task<ActionResult> Detail()
+        public ActionResult Detail()
         {
 
             //need to figure out how to call method from index view
             Spotify s = new Spotify();
-           
-            s.SpotAuth();
 
             //figure out how to implement this better
             s.Artist = s.Performer();
@@ -37,12 +40,24 @@ namespace FunWithWeb.Controllers
             return View(s);
         }
 
-        public ActionResult Index()
+
+        public async Task<ActionResult> Auth()
         {
 
-            return View();
+            //This may not actually be working, but it seems to be working
+            //Need to figure out how to check if this has been done
+            Spotify.SpotAuth();
+
+            return RedirectToAction("Index");
         }
 
+        public ActionResult Search(string qStr)
+        {
+            //need to have submit buttn on search page go to this
+            // then figure out how to render a view on a model that doesn't exist in the models folder
+            List<FullArtist> fA  = Spotify.SpotSearch(qStr);
 
+            return View(fA);
+        }
     }
 }

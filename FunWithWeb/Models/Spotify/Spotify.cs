@@ -59,7 +59,7 @@ namespace FunWithWeb.Models.Spotify
 
         //Auth prob 1. a better way to implement, 2. a better place to put this, 3. need to figure out exactly how this works
 
-        public async void SpotAuth()
+        public static async void SpotAuth()
         {
             WebAPIFactory webApiFactory = new WebAPIFactory(
                "http://localhost",
@@ -82,6 +82,18 @@ namespace FunWithWeb.Models.Spotify
 
             if (_spotify == null)
                 return;
+        }
+
+        public static List<FullArtist> SpotSearch(string qS)
+        {
+            
+            SearchItem item = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US");
+
+            List<FullArtist> artList = new List<FullArtist>();
+
+            artList = item.Artists.Items.ToList();
+
+            return artList;
         }
 
 
