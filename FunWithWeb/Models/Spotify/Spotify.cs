@@ -12,50 +12,18 @@ namespace FunWithWeb.Models.Spotify
 
     public class Spotify
     {
-        public Spotify() { }
-
-        public Spotify(string artist, string trackName)
+        public Spotify()
         {
-            Artist = artist;
-            TrackName = trackName;
+
         }
 
-        public string Artist { get; set; }
-        public string TrackName { get; set; }
-
-        private static SpotifyWebAPI _spotify;
+        public static SpotifyWebAPI _spotify;
 
         //I think searching and returning stuff will be my goal
         //https://developer.spotify.com/web-api/console/get-search-item/
         //I think that will be fun to try
 
-        public string Track()
-        {
-            FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
-
-            if (track.Name != null)
-            {
-                return track.Name; //Yeay! We just printed a tracks name.
-            }
-            else
-            {
-                return track.Error.Message;
-            }
-        }
-
-        public string Performer()
-        {
-            FullTrack track = _spotify.GetTrack("3Hvu1pq89D4R0lyPBoujSv");
-
-            if (track.Artists != null)
-            {
-                return track.Artists.FirstOrDefault().Name; //Yeay! We just printed a tracks artist.
-            }
-            else
-            {
-                return track.Error.Message;
-            }
-        }
+      
 
         //Auth prob 1. a better way to implement, 2. a better place to put this, 3. need to figure out exactly how this works
 

@@ -29,15 +29,11 @@ namespace FunWithWeb.Controllers
         // just figuring out how the API works 
         public ActionResult Detail()
         {
+           //Still test data, but now I understand better how to incorporate 3rd party models into views
+            
+            FullTrack track = Spotify._spotify.GetTrack("0s1aSsYlLIEiy16LjFWbdp");
 
-            //need to figure out how to call method from index view
-            Spotify s = new Spotify();
-
-            //figure out how to implement this better
-            s.Artist = s.Performer();
-            s.TrackName = s.Track();
-
-            return View(s);
+            return View(track);
         }
 
 
