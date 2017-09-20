@@ -1,4 +1,11 @@
 ﻿@{
+    HttpCookie myCookie = new HttpCookie("authed");
+    myCookie = Request.Cookies["authed"];
+    bool authed = false;
+
+    // Read the cookie information and display it.
+    if (myCookie != null)
+        { authed = true; }
 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,7 +13,8 @@
 <h2>API</h2>
 <h3>Maybe... we'll see</h3>
 
-<a href="@Url.Action("Auth","API")" class="btn btn-default" >Auth spotify</a>
+@if (!authed)
+{<a href="@Url.Action("Auth", "API")" class="btn btn-default" >Auth spotify</a>}
 
 
 <h4>Search</h4>

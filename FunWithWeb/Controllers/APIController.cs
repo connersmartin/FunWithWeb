@@ -40,9 +40,15 @@ namespace FunWithWeb.Controllers
         public async Task<ActionResult> Auth()
         {
 
-            //This may not actually be working, but it seems to be working
-            //Need to figure out how to check if this has been done
             Spotify.SpotAuth();
+
+
+            //is this the right place to put cookies?
+            HttpCookie myCookie = new HttpCookie("authed");
+            myCookie["Font"] = "Arial";
+            myCookie["Color"] = "Blue";
+            myCookie.Expires = DateTime.Now.AddDays(1d);
+            Response.Cookies.Add(myCookie);
 
             return RedirectToAction("Index");
         }
