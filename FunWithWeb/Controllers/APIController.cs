@@ -12,8 +12,8 @@ namespace FunWithWeb.Controllers
     public class APIController : Controller
     {
         /* Overall design goal would be:
-         * Auth/Search page
-         * brings results in
+         * Auth/Search page done kind of, need to figure out auth/cookies
+         * brings results in done
          * 
          * stretch goal play files
          * search from DataTest info
@@ -21,19 +21,23 @@ namespace FunWithWeb.Controllers
 
         public ActionResult Index()
         {
-
             return View();
         }
 
-        // GET: API
-        // just figuring out how the API works 
-        public ActionResult Detail()
+        [HttpPost]
+        public ActionResult Index(string id)
         {
-           //Still test data, but now I understand better how to incorporate 3rd party models into views
-            
-            FullTrack track = Spotify._spotify.GetTrack("0s1aSsYlLIEiy16LjFWbdp");
+            //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
+            return RedirectToAction("Search", "API", new { id = id });
+        }
 
-            return View(track);
+        public ActionResult Detail(string id)
+        {
+            SeveralTracks tracks = Spotify._spotify.GetArtistsTopTracks(id, "US");
+           
+            List<FullTrack> listTracks = tracks.Tracks;
+
+            return View(listTracks);
         }
 
 
@@ -44,22 +48,22 @@ namespace FunWithWeb.Controllers
 
 
             //is this the right place to put cookies?
+            //Also need to figure out how to tie that to actually being authed
             HttpCookie myCookie = new HttpCookie("authed");
             myCookie["Font"] = "Arial";
             myCookie["Color"] = "Blue";
-            myCookie.Expires = DateTime.Now.AddDays(1d);
+            myCookie.Expires = DateTime.Now.AddSeconds(60d);
             Response.Cookies.Add(myCookie);
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult Search(string qStr)
+        public ActionResult Search(string id)
         {
-            //need to have submit buttn on search page go to this
-            // then figure out how to render a view on a model that doesn't exist in the models folder
-            List<FullArtist> fA  = Spotify.SpotSearch(qStr);
+            List<FullArtist> fA = Spotify.SpotSearch(id);
 
             return View(fA);
         }
+
     }
 }

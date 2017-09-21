@@ -1,34 +1,44 @@
-﻿@model SpotifyAPI.Web.Models.FullTrack
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
 
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
 }
 
-<h2>Detail</h2>
+<h2>Top track detail for @artist</h2>
 
-<div>
-    <h4>Spotify</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Album @Html.DisplayNameFor(model => model.Album.Name)
-        </dt>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Album)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th></th>
+    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Album.Name)
-        </dd>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Album.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
 
-        <dt>
-            Track @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        </tr>
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+</table>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Back to Index", "Index")
-</p>
+@Html.ActionLink("Index", "Index")
+
