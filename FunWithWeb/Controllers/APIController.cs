@@ -21,15 +21,17 @@ namespace FunWithWeb.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            if (Spotify._spotify == null)
+            {
+                return View();
+            }
+
+            else
+            {
+                return RedirectToAction("Landing");
+            }
         }
 
-        [HttpPost]
-        public ActionResult Index(string id)
-        {
-            //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
-            return RedirectToAction("Search", "API", new { id = id });
-        }
 
         public ActionResult Detail(string id)
         {
@@ -43,19 +45,24 @@ namespace FunWithWeb.Controllers
 
         public async Task<ActionResult> Auth()
         {
+            if (Spotify._spotify == null)
+            {
+                Spotify.SpotAuth();
+                //is this the right place to put cookies?
+                //Also need to figure out how to tie that to actually being authed
+                HttpCookie myCookie = new HttpCookie("authed");
+                myCookie["Font"] = "Arial";
+                myCookie["Color"] = "Blue";
+                myCookie.Expires = DateTime.Now.AddSeconds(60d);
+                Response.Cookies.Add(myCookie);
 
-            Spotify.SpotAuth();
+                return RedirectToAction("Landing");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
 
-
-            //is this the right place to put cookies?
-            //Also need to figure out how to tie that to actually being authed
-            HttpCookie myCookie = new HttpCookie("authed");
-            myCookie["Font"] = "Arial";
-            myCookie["Color"] = "Blue";
-            myCookie.Expires = DateTime.Now.AddSeconds(60d);
-            Response.Cookies.Add(myCookie);
-
-            return RedirectToAction("Index");
         }
 
         public ActionResult Search(string id)
@@ -65,5 +72,16 @@ namespace FunWithWeb.Controllers
             return View(fA);
         }
 
+        public ActionResult Landing()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Landing(string id)
+        {
+            //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
+            return RedirectToAction("Search", "API", new { id = id });
+        }
     }
 }

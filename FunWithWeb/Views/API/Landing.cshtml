@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>You're signed in to spotify and can search now!</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Search</h4>
+        <hr/>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Editor("id")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Search" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+}
