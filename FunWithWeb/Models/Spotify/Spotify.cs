@@ -52,6 +52,8 @@ namespace FunWithWeb.Models.Spotify
                 return;
         }
 
+        //need to figure out how to make a universal search method
+
         public static List<FullArtist> SpotSearch(string qS)
         {
             

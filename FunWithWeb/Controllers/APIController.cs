@@ -15,7 +15,7 @@ namespace FunWithWeb.Controllers
          * Auth/Search page done kind of, need to figure out auth/cookies
          * brings results in done
          * 
-         * stretch goal play files
+         * play files - not that hard, see https://developer.spotify.com/technologies/widgets/spotify-play-button/
          * search from DataTest info
          */
 
@@ -82,6 +82,24 @@ namespace FunWithWeb.Controllers
         {
             //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
             return RedirectToAction("Search", "API", new { id = id });
+        }
+
+        public ActionResult Play(string id, string playType)
+        {
+            //Goal is to click on a link in the search page and play the track/artist/album
+
+            switch (playType)
+            {
+                case "track":
+                    break;
+                case "artist":
+                    break;
+                case "album":
+                    break;
+                default:
+                    break;
+            }
+            return View();
         }
     }
 }
