@@ -214,6 +214,7 @@
     <Content Include="Views\API\Detail.cshtml" />
     <Content Include="Views\API\Search.cshtml" />
     <Content Include="Views\API\Landing.cshtml" />
+    <Content Include="Views\API\_ArtistSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -54,6 +54,9 @@ namespace FunWithWeb.Models.Spotify
 
         //need to figure out how to make a universal search method
 
+        //for a given search parameter, we need Artist, Album, songs returned
+        //for that we could have 3 separate methods and return each in a partial view... easy?
+
         public static List<FullArtist> SpotSearch(string qS)
         {
             

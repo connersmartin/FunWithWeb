@@ -18,7 +18,9 @@ namespace FunWithWeb.Controllers
          * play files - not that hard, see https://developer.spotify.com/technologies/widgets/spotify-play-button/
          * search from DataTest info
          */
+        
 
+        //index, will auth or go to landing page
         public ActionResult Index()
         {
             if (Spotify._spotify == null)
@@ -32,6 +34,7 @@ namespace FunWithWeb.Controllers
             }
         }
 
+        //Shows detail of an artist's tracks
 
         public ActionResult Detail(string id)
         {
@@ -42,19 +45,12 @@ namespace FunWithWeb.Controllers
             return View(listTracks);
         }
 
-
+        //checks to see if already authed, if so redirect to lading page
         public async Task<ActionResult> Auth()
         {
             if (Spotify._spotify == null)
             {
                 Spotify.SpotAuth();
-                //is this the right place to put cookies?
-                //Also need to figure out how to tie that to actually being authed
-                HttpCookie myCookie = new HttpCookie("authed");
-                myCookie["Font"] = "Arial";
-                myCookie["Color"] = "Blue";
-                myCookie.Expires = DateTime.Now.AddSeconds(60d);
-                Response.Cookies.Add(myCookie);
 
                 return RedirectToAction("Landing");
             }
@@ -64,6 +60,7 @@ namespace FunWithWeb.Controllers
             }
 
         }
+
 
         public ActionResult Search(string id)
         {

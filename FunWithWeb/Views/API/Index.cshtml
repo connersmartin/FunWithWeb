@@ -1,15 +1,5 @@
-﻿@using System.Diagnostics.Eventing.Reader
-
+﻿
 @{
-    HttpCookie myCookie = new HttpCookie("authed");
-    myCookie = Request.Cookies["authed"];
-    bool authed = false;
-
-    // Read the cookie information and display it.
-    if (myCookie != null)
-        { authed = true; }
-
-
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 

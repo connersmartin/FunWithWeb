@@ -4,9 +4,11 @@
     ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
+    string topTrack = Model.FirstOrDefault().Id;
+    string urlPlay = "https://open.spotify.com/embed?uri=spotify:track:" + topTrack;
 }
 
-<h2>Top track detail for @artist</h2>
+<h2>Top 10 tracks for @artist</h2>
 
 <table class="table">
     <tr>
@@ -14,11 +16,9 @@
             @Html.DisplayNameFor(model => model.Album)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Track Name
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
+        
         <th></th>
     </tr>
 
@@ -31,14 +31,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+
 
         </tr>
     }
 
 </table>
+
+<h3>Open Spotify to play the first track</h3>
+<iframe src="@urlPlay"
+        frameborder="0" allowtransparency="true"></iframe>
 
 @Html.ActionLink("Index", "Index")
 
