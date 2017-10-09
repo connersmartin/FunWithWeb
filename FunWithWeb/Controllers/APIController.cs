@@ -64,6 +64,9 @@ namespace FunWithWeb.Controllers
 
         public ActionResult Search(string id)
         {
+            //do logic for specific searches in view as well
+            //make a model for search results
+
             List<FullArtist> fA = Spotify.SpotSearch(id);
 
             return View(fA);

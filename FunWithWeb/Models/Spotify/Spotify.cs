@@ -59,6 +59,9 @@ namespace FunWithWeb.Models.Spotify
 
         public static List<FullArtist> SpotSearch(string qS)
         {
+
+            //return a new model: each property would be collection of potential search types
+            //from there you would pass that to the search
             
             SearchItem item = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US");
 

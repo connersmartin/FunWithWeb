@@ -167,6 +167,7 @@
     <Compile Include="Models\Album.cs" />
     <Compile Include="Models\DataAccess\DataAccess.cs" />
     <Compile Include="Models\DataTest.cs" />
+    <Compile Include="Models\Spotify\SearchAll.cs" />
     <Compile Include="Models\Spotify\Spotify.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
