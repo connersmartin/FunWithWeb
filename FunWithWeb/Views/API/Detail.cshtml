@@ -9,38 +9,35 @@
 }
 
 <h2>Top 10 tracks for @artist</h2>
-
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Album)
-        </th>
-        <th>
-            Track Name
-        </th>
-        
-        <th></th>
-    </tr>
+<div class="container">
+    
+    <div class="row">
+        <div class="col-lg-2">
+            <h3>
+                @Html.DisplayNameFor(model => model.Album)
+            </h3>
+        </div>
+        <div class="col-lg-2">
+            <h3>Track Name</h3>
+        </div>
+    </div>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
+        <div class="row">
+            <div class="col-lg-2">
                 @Html.DisplayFor(modelItem => item.Album.Name)
-            </td>
-            <td>
+            </div>
+            <div class="col-lg-2">
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-
-
-        </tr>
+            </div>
+        </div>
     }
-
-</table>
-
-<h3>Open Spotify to play the first track</h3>
-<iframe src="@urlPlay"
-        frameborder="0" allowtransparency="true"></iframe>
+</div>
+<div class="container">
+        <h3>Open Spotify to play the first track</h3>
+        <iframe src="@urlPlay" frameborder="0" allowtransparency="true"></iframe>
+</div>
 
 @Html.ActionLink("Index", "Index")
 

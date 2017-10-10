@@ -57,19 +57,23 @@ namespace FunWithWeb.Models.Spotify
         //for a given search parameter, we need Artist, Album, songs returned
         //for that we could have 3 separate methods and return each in a partial view... easy?
 
-        public static List<FullArtist> SpotSearch(string qS)
+        public static SearchAll SpotSearch(string qS)
         {
 
             //return a new model: each property would be collection of potential search types
             //from there you would pass that to the search
-            
-            SearchItem item = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US");
 
-            List<FullArtist> artList = new List<FullArtist>();
+            SearchAll SA = new SearchAll();
 
-            artList = item.Artists.Items.ToList();
+            SA.ArtistSearch = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
-            return artList;
+            SA.AlbumSearch = _spotify.SearchItems(qS, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
+
+            SA.TrackSearch = _spotify.SearchItems(qS, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
+
+            SA.query = qS;
+
+            return SA;
         }
 
 

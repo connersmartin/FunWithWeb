@@ -36,6 +36,8 @@ namespace FunWithWeb.Controllers
 
         //Shows detail of an artist's tracks
 
+            //TODO figure out how to make for tracks for a specific album, then full info for a specific song maybe
+
         public ActionResult Detail(string id)
         {
             SeveralTracks tracks = Spotify._spotify.GetArtistsTopTracks(id, "US");
@@ -67,7 +69,7 @@ namespace FunWithWeb.Controllers
             //do logic for specific searches in view as well
             //make a model for search results
 
-            List<FullArtist> fA = Spotify.SpotSearch(id);
+            SearchAll fA = Spotify.SpotSearch(id);
 
             return View(fA);
         }

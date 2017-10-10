@@ -1,12 +1,18 @@
-﻿@model IEnumerable<SpotifyAPI.Web.Models.FullArtist>
+﻿@model FunWithWeb.Models.Spotify.SearchAll
 
 @{
     ViewBag.Title = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1>Search Results for @Model.query</h1>
+
+<div class="container">
 @{
-    Html.RenderPartial("_ArtistSearch", Model); 
+    Html.RenderPartial("_ArtistSearch", Model.ArtistSearch);
+    Html.RenderPartial("_AlbumSearch", Model.AlbumSearch);
+    Html.RenderPartial("_TrackSearch", Model.TrackSearch);
 }
+</div>
 
 @Html.ActionLink("Index","Index")
