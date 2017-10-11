@@ -36,8 +36,9 @@ namespace FunWithWeb.Controllers
 
         //Shows detail of an artist's tracks
 
-            //TODO figure out how to make for tracks for a specific album, then full info for a specific song maybe
-
+        //TODO figure out how to make for tracks for a specific album, then full info for a specific song maybe
+        //think about partial views or doing some logic within the view to show specific detail
+        //Also need to figure out how to play different 'types'
         public ActionResult Detail(string id)
         {
             SeveralTracks tracks = Spotify._spotify.GetArtistsTopTracks(id, "US");
@@ -47,7 +48,7 @@ namespace FunWithWeb.Controllers
             return View(listTracks);
         }
 
-        //checks to see if already authed, if so redirect to lading page
+        //checks to see if already authed, if so redirect to landing page
         public async Task<ActionResult> Auth()
         {
             if (Spotify._spotify == null)
@@ -66,12 +67,7 @@ namespace FunWithWeb.Controllers
 
         public ActionResult Search(string id)
         {
-            //do logic for specific searches in view as well
-            //make a model for search results
-
-            SearchAll fA = Spotify.SpotSearch(id);
-
-            return View(fA);
+            return View(Spotify.SpotSearch(id));
         }
 
         public ActionResult Landing()
@@ -86,22 +82,6 @@ namespace FunWithWeb.Controllers
             return RedirectToAction("Search", "API", new { id = id });
         }
 
-        public ActionResult Play(string id, string playType)
-        {
-            //Goal is to click on a link in the search page and play the track/artist/album
-
-            switch (playType)
-            {
-                case "track":
-                    break;
-                case "artist":
-                    break;
-                case "album":
-                    break;
-                default:
-                    break;
-            }
-            return View();
-        }
+       
     }
 }

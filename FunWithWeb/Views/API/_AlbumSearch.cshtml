@@ -1,10 +1,22 @@
 ﻿@model IEnumerable<SpotifyAPI.Web.Models.SimpleAlbum>
-<div>
-    <h2>Albums</h2>
-    @foreach (var item in Model)
-    {
-            <div class="row">
-                @Html.DisplayFor(modelItem => item.Name)
-            </div>
-    }
-</div>
+
+    <div class="col-xs-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Albums</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+

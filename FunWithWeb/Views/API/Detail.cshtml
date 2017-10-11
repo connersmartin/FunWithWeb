@@ -1,42 +1,39 @@
 ﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
 
 @{
-    ViewBag.Title = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
     string topTrack = Model.FirstOrDefault().Id;
-    string urlPlay = "https://open.spotify.com/embed?uri=spotify:track:" + topTrack;
+    string topType = Model.FirstOrDefault().Type;
+    string urlPlay = "https://open.spotify.com/embed?uri=spotify:" + topType + ":" + topTrack;
 }
-
-<h2>Top 10 tracks for @artist</h2>
 <div class="container">
-    
-    <div class="row">
-        <div class="col-lg-2">
-            <h3>
-                @Html.DisplayNameFor(model => model.Album)
-            </h3>
-        </div>
-        <div class="col-lg-2">
-            <h3>Track Name</h3>
+    <div class="col-xs-6">
+        <h2>Top 10 tracks for @artist</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Album)</th>
+                    <th>Track Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Album.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-6">
+        <h2>Open Spotify to play the first track</h2>
+        <div>
+            <iframe src="@urlPlay" frameborder="0" allowtransparency="true"></iframe>
         </div>
     </div>
-
-    @foreach (var item in Model)
-    {
-        <div class="row">
-            <div class="col-lg-2">
-                @Html.DisplayFor(modelItem => item.Album.Name)
-            </div>
-            <div class="col-lg-2">
-                @Html.DisplayFor(modelItem => item.Name)
-            </div>
-        </div>
-    }
-</div>
-<div class="container">
-        <h3>Open Spotify to play the first track</h3>
-        <iframe src="@urlPlay" frameborder="0" allowtransparency="true"></iframe>
 </div>
 
 @Html.ActionLink("Index", "Index")
