@@ -17,7 +17,7 @@ namespace FunWithWeb.Models.Spotify
         }
         public string query { get; set; }
         public List<FullArtist> ArtistSearch { get; set; }
-        public List<SimpleAlbum> AlbumSearch { get; set; }
+        public List<FullAlbum> AlbumSearch { get; set; }
         public List<FullTrack> TrackSearch { get; set; }
 
     }

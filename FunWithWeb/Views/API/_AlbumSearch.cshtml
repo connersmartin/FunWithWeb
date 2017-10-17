@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SpotifyAPI.Web.Models.SimpleAlbum>
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullAlbum>
 
     <div class="col-xs-4">
         <table class="table table-striped">
@@ -11,6 +11,12 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            @foreach (var artist in item.Artists)
+                            {
+                                @Html.ActionLink(artist.Name, "Detail", new { id = artist.Id });
+                            }
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>

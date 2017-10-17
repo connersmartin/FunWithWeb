@@ -65,11 +65,16 @@ namespace FunWithWeb.Models.Spotify
 
             SearchAll SA = new SearchAll();
 
+            SA.AlbumSearch = new List<FullAlbum>();
+
             SA.ArtistSearch = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
-            SA.AlbumSearch = _spotify.SearchItems(qS, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
+            List<SimpleAlbum> simpleAlbum = _spotify.SearchItems(qS, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
 
-            //try to do foreach on the simple albums to pull up list of fullAlbums
+            foreach (SimpleAlbum item in simpleAlbum)
+            {
+                SA.AlbumSearch.Add(_spotify.GetAlbum(item.Id, "US"));
+            }
 
             SA.TrackSearch = _spotify.SearchItems(qS, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
 
