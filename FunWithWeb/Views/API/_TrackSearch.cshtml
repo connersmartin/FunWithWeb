@@ -4,7 +4,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Tracks</th>
+                    <th>Track Results</th>
+                    <th>Album</th>
+                    <th>Artist</th>
                 </tr>
             </thead>
             <tbody>
@@ -12,17 +14,17 @@
                 {
                     <tr>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Album.Name)
+                        </td>
+                        <td>
                             @foreach (var artist in item.Artists)
                             {                                
-                                @Html.ActionLink(artist.Name + " ", "Detail", new { id = artist.Id });
+                                @Html.ActionLink(artist.Name + " ", "Detail", new { id = artist.Id })
                             }
                            
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Album.Name);
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name);
                         </td>
                     </tr>
                 }

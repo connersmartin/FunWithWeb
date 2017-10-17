@@ -7,10 +7,22 @@
 <h1>Search Results for @Model.query</h1>
 
 <div class="container">
+
 @{
-    Html.RenderPartial("_ArtistSearch", Model.ArtistSearch);
-    Html.RenderPartial("_AlbumSearch", Model.AlbumSearch);
-    Html.RenderPartial("_TrackSearch", Model.TrackSearch);
+    if((Model.searchType == "artist" || Model.searchType == null) && Model.ArtistSearch.Count > 0)
+    {
+        Html.RenderPartial("_ArtistSearch", Model.ArtistSearch);
+    }
+    
+    if ((Model.searchType == "album" || Model.searchType == null) && Model.AlbumSearch.Count > 0)
+    {
+        Html.RenderPartial("_AlbumSearch", Model.AlbumSearch);
+    }
+
+    if ((Model.searchType == "album" || Model.searchType == null) && Model.TrackSearch.Count > 0)
+    {
+        Html.RenderPartial("_TrackSearch", Model.TrackSearch);
+    }
 }
 </div>
 

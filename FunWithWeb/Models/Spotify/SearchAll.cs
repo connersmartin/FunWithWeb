@@ -15,6 +15,7 @@ namespace FunWithWeb.Models.Spotify
         public SearchAll() {
 
         }
+        public string searchType { get; set; }
         public string query { get; set; }
         public List<FullArtist> ArtistSearch { get; set; }
         public List<FullAlbum> AlbumSearch { get; set; }

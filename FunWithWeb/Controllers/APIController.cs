@@ -49,13 +49,18 @@ namespace FunWithWeb.Controllers
         }
 
         //checks to see if already authed, if so redirect to landing page
-        public async Task<ActionResult> Auth()
+        public async Task<ActionResult> Auth(string id)
         {
-            if (Spotify._spotify == null)
+            if (Spotify._spotify == null && id == null)
             {
                 Spotify.SpotAuth();
 
                 return RedirectToAction("Landing");
+            }
+            else if (Spotify._spotify == null && id != null)
+            {
+                Spotify.SpotAuth();
+                return RedirectToAction("Search", new { id = id });
             }
             else
             {
@@ -64,10 +69,31 @@ namespace FunWithWeb.Controllers
 
         }
 
+        //Why did this give me an error? 
+
+         /*
+        public async Task<ActionResult> Auth(string id)
+        {
+            if (Spotify._spotify == null)
+            {
+                Spotify.SpotAuth();
+            }
+            return RedirectToAction("Search", new { id = id });
+           
+        }*/
+
 
         public ActionResult Search(string id)
         {
-            return View(Spotify.SpotSearch(id));
+            if (Spotify._spotify != null)
+            {
+                return View(Spotify.SpotSearch(id));
+            }
+
+            else
+            {
+                return RedirectToAction("Auth", new { id = id });
+            }
         }
 
         public ActionResult Landing()
@@ -78,6 +104,10 @@ namespace FunWithWeb.Controllers
         [HttpPost]
         public ActionResult Landing(string id)
         {
+            //need to figure out how to send drop down menu value as well
+            //OR send querytype so we can get a better user experience from the SQL db
+            //next goal is to try a tempo search
+
             //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
             return RedirectToAction("Search", "API", new { id = id });
         }
