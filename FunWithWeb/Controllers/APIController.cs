@@ -41,11 +41,8 @@ namespace FunWithWeb.Controllers
         //Also need to figure out how to play different 'types'
         public ActionResult Detail(string id)
         {
-            SeveralTracks tracks = Spotify._spotify.GetArtistsTopTracks(id, "US");
            
-            List<FullTrack> listTracks = tracks.Tracks;
-
-            return View(listTracks);
+            return View(Spotify.TrackDetail(id));
         }
 
         //checks to see if already authed, if so redirect to landing page
