@@ -49,8 +49,11 @@ namespace FunWithWeb.Models.DataAccess
             }
             catch (MySqlException ex)
             {
-                //TODO figure out how to display user friendly error messages
-                throw;
+                if (viewData.Count == 0)
+                {
+                    DataTest testData = new DataTest(999999999, "Chick Corea", "Beneath The Mask", "One of us is over 40", "Dave Weckl", 1991);
+                    viewData.Add(testData);
+                }
             }
             finally //don't forget to close connections
             {
@@ -64,7 +67,7 @@ namespace FunWithWeb.Models.DataAccess
                     conn.Close();
                 }
             }
-
+            
             return viewData;
         }
 
@@ -94,8 +97,7 @@ namespace FunWithWeb.Models.DataAccess
             }
             catch (MySqlException ex)
             {
-                //TODO display sql error messages
-                throw;
+                
             }
             finally
             {

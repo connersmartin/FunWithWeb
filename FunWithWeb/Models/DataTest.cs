@@ -40,6 +40,5 @@ namespace FunWithWeb.Models
 
         public DataTest() { }
 
-        
     }
 }

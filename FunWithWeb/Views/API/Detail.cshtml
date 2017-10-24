@@ -3,9 +3,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
-    string topTrack = Model.FirstOrDefault().Id;
-    string topType = Model.FirstOrDefault().Type;
-    string urlPlay = "https://open.spotify.com/embed?uri=spotify:" + topType + ":" + topTrack;
 }
 <div class="container">
     <div class="col-xs-6">
@@ -31,7 +28,7 @@
     <div class="col-xs-6">
         <h2>Open your Spotify App to play the first track</h2>
         <div>
-            <iframe src="@urlPlay" frameborder="0" allowtransparency="true"></iframe>
+            @Html.Partial("_PlayerPane", Model);
         </div>
     </div>
 </div>

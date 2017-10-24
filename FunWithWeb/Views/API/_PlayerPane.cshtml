@@ -1,0 +1,7 @@
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+
+@{ 
+    string topTrack = Model.FirstOrDefault().Id;
+    string urlPlay = "https://open.spotify.com/embed?uri=spotify:track:" + topTrack;
+}
+<iframe src="@urlPlay" frameborder="0" allowtransparency="true"></iframe>

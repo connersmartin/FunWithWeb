@@ -8,7 +8,12 @@
 <h2>Index</h2>
 
 <p>
+@if (Model.FirstOrDefault().ID != 999999999)
+{
     @Html.ActionLink("Create New", "Create")
+}else{
+    <span>SQL Connection Not Available, use test data below</span>
+}
 </p>
 <table class="table">
     <tr>
@@ -48,9 +53,14 @@
             @Html.DisplayFor(modelItem => item.Year)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Detail", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Details", "Detail", new { id = item.ID })
+            @if (Model.FirstOrDefault().ID != 999999999)
+            {     
+                <span>|</span>            
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                <span>|</span>
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            }
         </td>
     </tr>
 }
