@@ -19,7 +19,7 @@
         Html.RenderPartial("_AlbumSearch", Model.AlbumSearch);
     }
 
-    if ((Model.searchType == "album" || Model.searchType == null) && Model.TrackSearch.Count > 0)
+    if ((Model.searchType == "track" || Model.searchType == null) && Model.TrackSearch.Count > 0)
     {
         Html.RenderPartial("_TrackSearch", Model.TrackSearch);
     }

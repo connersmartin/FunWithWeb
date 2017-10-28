@@ -104,11 +104,26 @@ namespace FunWithWeb.Controllers
             //need to figure out how to send drop down menu value as well
             //OR send querytype so we can get a better user experience from the SQL db
             //next goal is to try a tempo search
-
-            //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
-            return RedirectToAction("Search", "API", new { id = id });
+            try
+            {
+                decimal tempo = Decimal.Parse(id);
+                return RedirectToAction("Tempo", "API", new { id = tempo });
+            }
+            catch
+            {
+                //that new syntax messed me up, need to understand that better, maybe can't pass a value, but a parameter object of id?
+                return RedirectToAction("Search", "API", new { id = id });
+            }
         }
 
-       
+        public ActionResult Tempo(decimal id)
+        {
+            //this may get complex, but that's why I want to try it
+            //I'll have to get all genres and search that tmepo
+            //or get a couple of tracks
+            return View();
+        }
+
+
     }
 }
