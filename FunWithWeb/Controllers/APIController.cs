@@ -106,7 +106,7 @@ namespace FunWithWeb.Controllers
             //next goal is to try a tempo search
             try
             {
-                decimal tempo = Decimal.Parse(id);
+                float tempo = (float)decimal.Parse(id);
                 return RedirectToAction("Tempo", "API", new { id = tempo });
             }
             catch
@@ -116,12 +116,12 @@ namespace FunWithWeb.Controllers
             }
         }
 
-        public ActionResult Tempo(decimal id)
+        public ActionResult Tempo(float id)
         {
             //this may get complex, but that's why I want to try it
             //I'll have to get all genres and search that tmepo
             //or get a couple of tracks
-            return View();
+            return View(Spotify.TempoSearch(id));
         }
 
 

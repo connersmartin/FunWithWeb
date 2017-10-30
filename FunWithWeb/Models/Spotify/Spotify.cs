@@ -94,6 +94,43 @@ namespace FunWithWeb.Models.Spotify
             return tracklist;
         }
 
+        public static List<SimpleTrack> TempoSearch(float tempo)
+        {
+            TuneableTrack trackParam = new TuneableTrack();
+            trackParam.Tempo = tempo;
+            Recommendations rex = _spotify.GetRecommendations(null, null, null, trackParam, null, null, 20, "US");
+
+            if (!rex.HasError()) //then it worked!!!
+            {
+                List<SimpleTrack> recTracks = rex.Tracks.ToList();
+                return recTracks;
+
+            }
+            else // didn't quite work, this currently only returns recommendations for songs like steely dan
+            {
+                SearchItem artTest = _spotify.SearchItems("Steely Dan", SearchType.Artist, 1, 0, "US");
+
+                List<FullArtist> FArtist = new List<FullArtist>();
+
+                FArtist = artTest.Artists.Items.ToList();
+
+                List<string> artString = new List<string>();
+
+                foreach (FullArtist Fu in FArtist)
+                {
+                    artString.Add(Fu.Id);
+                }
+
+                    Recommendations test = _spotify.GetRecommendations(artString, null, null, null, null, null, 10, "US");
+                    List<SimpleTrack> recTracks = test.Tracks.ToList();
+                return recTracks;
+
+            }
+
+
+           
+        }
+
 
     }
 }
