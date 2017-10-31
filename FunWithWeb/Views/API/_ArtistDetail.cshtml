@@ -1,0 +1,25 @@
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+
+@{
+    string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
+}
+
+<h2>Top 10 tracks for @artist</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Album)</th>
+            <th>Track Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Album.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,34 +1,23 @@
-﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+﻿@model FunWithWeb.Models.Spotify.SearchAll
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name;
-}
 <div class="container">
     <div class="col-xs-6">
-        <h2>Top 10 tracks for @artist</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Album)</th>
-                    <th>Track Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Album.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @{ 
+            if(Model.query == "tempo")
+            {
+               @Html.Partial("_TempoDetail", Model.TrackSearch);
+            }
+            else
+            {
+               @Html.Partial("_ArtistDetail", Model.TrackSearch);
+            }
+        }
+        
     </div>
     <div class="col-xs-6">
         <h2>Open your Spotify App to play the first track</h2>
         <div>
-            @Html.Partial("_PlayerPane", Model);
+            @Html.Partial("_PlayerPane", Model.TrackSearch);
         </div>
     </div>
 </div>

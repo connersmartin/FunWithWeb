@@ -99,7 +99,7 @@ namespace FunWithWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Landing(string id)
+        public ActionResult Landing(string id, string artist)
         {
             //need to figure out how to send drop down menu value as well
             //OR send querytype so we can get a better user experience from the SQL db
@@ -107,7 +107,7 @@ namespace FunWithWeb.Controllers
             try
             {
                 float tempo = (float)decimal.Parse(id);
-                return RedirectToAction("Tempo", "API", new { id = tempo });
+                return RedirectToAction("Tempo", "API", new { id = tempo, artist = artist });
             }
             catch
             {
@@ -116,12 +116,12 @@ namespace FunWithWeb.Controllers
             }
         }
 
-        public ActionResult Tempo(float id)
+        public ActionResult Tempo(float id, string artist)
         {
             //this may get complex, but that's why I want to try it
             //I'll have to get all genres and search that tmepo
             //or get a couple of tracks
-            return View(Spotify.TempoSearch(id));
+            return View("Detail",Spotify.TempoSearch(id, artist));
         }
 
 

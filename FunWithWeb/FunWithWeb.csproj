@@ -219,7 +219,8 @@
     <Content Include="Views\API\_AlbumSearch.cshtml" />
     <Content Include="Views\API\_TrackSearch.cshtml" />
     <Content Include="Views\API\_PlayerPane.cshtml" />
-    <Content Include="Views\API\Tempo.cshtml" />
+    <Content Include="Views\API\_TempoDetail.cshtml" />
+    <Content Include="Views\API\_ArtistDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

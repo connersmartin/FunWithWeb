@@ -1,13 +1,14 @@
-﻿@model IEnumerable<SpotifyAPI.Web.Models.SimpleTrack>
-
-<h2>Tempo</h2>
-
-<div class="col-xs-4">
+﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+@{ 
+    string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name.ToString();
+}
+<h2>Top 10 Recommendations for @artist</h2>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Track Results</th>
                 <th>Artist</th>
+                <th>Album</th>
             </tr>
         </thead>
         <tbody>
@@ -18,12 +19,12 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @foreach (var artist in item.Artists)
+                        @foreach (var art in item.Artists)
                         {
-                            @Html.ActionLink(artist.Name, "Detail", new { id = artist.Id })<span> </span>
+                            @Html.ActionLink(art.Name, "Detail", new { id = art.Id })<span> </span>
                         }
-
                     </td>
+                    <td>@Html.DisplayFor(modelItem => item.Album.Name)</td>
                 </tr>
             }
         </tbody>
