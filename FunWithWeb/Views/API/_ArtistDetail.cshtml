@@ -17,7 +17,7 @@
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.Album.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>
             </tr>
         }
     </tbody>

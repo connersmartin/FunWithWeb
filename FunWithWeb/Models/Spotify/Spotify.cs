@@ -85,13 +85,13 @@ namespace FunWithWeb.Models.Spotify
             return SA;
         }
 
-        public static List<FullTrack> TrackDetail(string id)
+        public static SearchAll TrackDetail(string id)
         {
+            SearchAll SA = new SearchAll();
             SeveralTracks tracks = _spotify.GetArtistsTopTracks(id, "US");
+            SA.TrackSearch = tracks.Tracks;
 
-            List<FullTrack> tracklist = tracks.Tracks;
-
-            return tracklist;
+            return SA;
         }
 
         public static SearchAll TempoSearch(float tempo, string artistSearch)

@@ -15,12 +15,28 @@
         
     </div>
     <div class="col-xs-6">
-        <h2>Open your Spotify App to play the first track</h2>
-        <div>
-            @Html.Partial("_PlayerPane", Model.TrackSearch);
+        <h2>Open your Spotify App to play a track</h2>
+        <div id="partView">
+            @Html.Partial("_PlayerPane", Model.TrackSearch.FirstOrDefault().Id);
         </div>
     </div>
 </div>
 
 @Html.ActionLink("Index", "Index")
+
+@section Scripts {
+    <script type="text/javascript">
+        $(".trackID").click(function () {
+            var val = $(this).attr("id");
+            $.ajax({
+                url: "/API/PlayerPane",
+                type: "GET",
+                data: { id: val }
+            })
+                .done(function (partialViewResult) {
+                    $("#partView").html(partialViewResult);
+                });
+        });
+    </script>
+}
 

@@ -124,6 +124,10 @@ namespace FunWithWeb.Controllers
             return View("Detail",Spotify.TempoSearch(id, artist));
         }
 
-
+        [HttpGet]
+        public ActionResult PlayerPane(string id)
+        {
+            return PartialView("_PlayerPane", id);
+        }
     }
 }
