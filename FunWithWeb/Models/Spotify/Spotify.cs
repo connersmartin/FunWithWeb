@@ -57,7 +57,7 @@ namespace FunWithWeb.Models.Spotify
         //for a given search parameter, we need Artist, Album, songs returned
         //for that we could have 3 separate methods and return each in a partial view... easy?
 
-        public static SearchAll SpotSearch(string qS)
+        public static SearchAll SpotSearch(string queryString)
         {
 
             //return a new model: each property would be collection of potential search types
@@ -65,22 +65,17 @@ namespace FunWithWeb.Models.Spotify
 
             SearchAll SA = new SearchAll();
 
-            SA.AlbumSearch = new List<FullAlbum>();
+            SA.ArtistSearch = _spotify.SearchItems(queryString, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
-            SA.ArtistSearch = _spotify.SearchItems(qS, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
+            List<SimpleAlbum> simpleAlbum = _spotify.SearchItems(queryString, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
 
-            List<SimpleAlbum> simpleAlbum = _spotify.SearchItems(qS, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
+            SA.AlbumSearch = SimpleToFull(simpleAlbum);
 
-            foreach (SimpleAlbum item in simpleAlbum)
-            {
-                SA.AlbumSearch.Add(_spotify.GetAlbum(item.Id, "US"));
-            }
-
-            SA.TrackSearch = _spotify.SearchItems(qS, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
+            SA.TrackSearch = _spotify.SearchItems(queryString, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
 
             //try doing search all maybe easier
 
-            SA.query = qS;
+            SA.query = queryString;
 
             return SA;
         }
@@ -96,39 +91,55 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll TempoSearch(float tempo, string artistSearch)
         {
-            TuneableTrack trackParam = new TuneableTrack();
-            
-            SearchItem artTest = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US");
-
-            List<FullArtist> FArtist = new List<FullArtist>();
-
-            FArtist = artTest.Artists.Items.ToList();
-
-            List<string> artString = new List<string>();
-
-            foreach (FullArtist Fu in FArtist)
-            {
-                artString.Add(Fu.Id);
-            }
-
-            Recommendations test = _spotify.GetRecommendations(artString, null, null, trackParam, null, null, 10, "US");
-
-            List<SimpleTrack> recTracks = test.Tracks.ToList();
-
-            List<FullTrack> fullRecTracks = new List<FullTrack>();
-
-            foreach (SimpleTrack simple in recTracks)
-            {
-                fullRecTracks.Add(_spotify.GetTrack(simple.Id));
-            }
-
             SearchAll SA = new SearchAll();
 
-            SA.TrackSearch = fullRecTracks;
+            TuneableTrack trackParam = new TuneableTrack();
+            
+            SearchItem artist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US");
+
+            List<FullArtist> fullArtist = artist.Artists.Items.ToList();
+
+            List<string> artistString = new List<string>();
+
+            foreach (FullArtist fullArt in fullArtist)
+            {
+                artistString.Add(fullArt.Id);
+            }
+
+            Recommendations recs = _spotify.GetRecommendations(artistString, null, null, trackParam, null, null, 10, "US");
+
+            List<SimpleTrack> recTracks = recs.Tracks.ToList();
+
+            SA.TrackSearch = SimpleToFull(recTracks);
+
             SA.query = "tempo";
 
             return SA;
            
+        }
+        
+        public static List<FullTrack> SimpleToFull (List<SimpleTrack> simple)
+        {
+            List<FullTrack> full = new List<FullTrack>();
+
+            foreach (SimpleTrack s in simple)
+            {
+                full.Add(_spotify.GetTrack(s.Id));
+            }
+
+            return full;
+        }
+
+        public static List<FullAlbum> SimpleToFull(List<SimpleAlbum> simple)
+        {
+            List<FullAlbum> full = new List<FullAlbum>();
+
+            foreach (SimpleAlbum s in simple)
+            {
+                full.Add(_spotify.GetAlbum(s.Id));
+            }
+
+            return full;
         }
 
 

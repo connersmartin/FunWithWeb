@@ -15,9 +15,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
+                    <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>
                     <td>
                         @foreach (var art in item.Artists)
                         {
