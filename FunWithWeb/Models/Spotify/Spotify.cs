@@ -117,6 +117,26 @@ namespace FunWithWeb.Models.Spotify
             return SA;
            
         }
+
+        public static SearchAll AlbumDetail (string id)
+        {
+            SearchAll SA = new SearchAll();
+
+            SA.AlbumSearch = new List<FullAlbum>();
+
+            SA.AlbumSearch.Add(_spotify.GetAlbum(id, "US"));
+
+            SA.TrackSearch = SimpleToFull(_spotify.GetAlbumTracks(id, 50, 0, "US").Items.ToList());
+
+            SA.query = "album";
+
+            return SA;
+        }
+
+        public static List<SimpleTrack> AlbumToTrack (FullAlbum album)
+        {
+            return album.Tracks.Items.ToList();
+        }
         
         public static List<FullTrack> SimpleToFull (List<SimpleTrack> simple)
         {

@@ -221,6 +221,7 @@
     <Content Include="Views\API\_PlayerPane.cshtml" />
     <Content Include="Views\API\_TempoDetail.cshtml" />
     <Content Include="Views\API\_ArtistDetail.cshtml" />
+    <Content Include="Views\API\_AlbumDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

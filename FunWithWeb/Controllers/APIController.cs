@@ -40,8 +40,7 @@ namespace FunWithWeb.Controllers
         //think about partial views or doing some logic within the view to show specific detail
         //Also need to figure out how to play different 'types'
         public ActionResult Detail(string id)
-        {
-           
+        {    
             return View(Spotify.TrackDetail(id));
         }
 
@@ -124,10 +123,14 @@ namespace FunWithWeb.Controllers
             return View("Detail",Spotify.TempoSearch(id, artist));
         }
 
-        [HttpGet]
         public ActionResult PlayerPane(string id)
         {
             return PartialView("_PlayerPane", id);
+        }
+
+        public ActionResult AlbumDetail(string id)
+        {
+            return View("Detail", Spotify.AlbumDetail(id));
         }
     }
 }

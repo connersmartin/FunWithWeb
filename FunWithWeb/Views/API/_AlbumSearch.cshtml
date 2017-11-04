@@ -13,7 +13,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.ActionLink(item.Name, "AlbumDetail", new { id = item.Id })
                         </td>
                         <td>
                             @foreach (var artist in item.Artists)

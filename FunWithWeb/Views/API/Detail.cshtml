@@ -7,9 +7,13 @@
             {
                @Html.Partial("_TempoDetail", Model.TrackSearch);
             }
+            else if(Model.query == "album")
+            {
+                @Html.Partial("_AlbumDetail", Model);
+            }
             else
             {
-               @Html.Partial("_ArtistDetail", Model.TrackSearch);
+                @Html.Partial("_ArtistDetail", Model.TrackSearch);
             }
         }
         

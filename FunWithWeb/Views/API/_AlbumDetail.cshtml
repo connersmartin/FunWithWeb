@@ -1,0 +1,22 @@
+﻿@model FunWithWeb.Models.Spotify.SearchAll
+@{
+    string artist = Model.AlbumSearch.FirstOrDefault().Artists.FirstOrDefault().Name;
+    string album = Model.AlbumSearch.FirstOrDefault().Name;
+}
+<h2>@artist - @album</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tracks</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TrackSearch)
+            {
+            <tr>
+                <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>                
+            </tr>
+        }
+    </tbody>
+</table>
+

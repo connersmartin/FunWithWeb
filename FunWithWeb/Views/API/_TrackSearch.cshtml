@@ -17,7 +17,7 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Album.Name)
+                            @Html.ActionLink(item.Album.Name, "AlbumDetail", new { id = item.Album.Id })
                         </td>
                         <td>
                             @foreach (var artist in item.Artists)
