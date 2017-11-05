@@ -19,10 +19,7 @@ namespace FunWithWeb.Models.Spotify
 
         public static SpotifyWebAPI _spotify;
 
-        //I think searching and returning stuff will be my goal
-        //https://developer.spotify.com/web-api/console/get-search-item/
-        //I think that will be fun to try
-
+        public static SearchAll SA = new SearchAll();
       
 
         //Auth prob 1. a better way to implement, 2. a better place to put this, 3. need to figure out exactly how this works
@@ -59,12 +56,6 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll SpotSearch(string queryString)
         {
-
-            //return a new model: each property would be collection of potential search types
-            //from there you would pass that to the search
-
-            SearchAll SA = new SearchAll();
-
             SA.ArtistSearch = _spotify.SearchItems(queryString, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
             List<SimpleAlbum> simpleAlbum = _spotify.SearchItems(queryString, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
@@ -73,27 +64,30 @@ namespace FunWithWeb.Models.Spotify
 
             SA.TrackSearch = _spotify.SearchItems(queryString, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
 
-            //try doing search all maybe easier
-
             SA.query = queryString;
 
             return SA;
         }
 
+        //returns the top tracks for an artist
+
         public static SearchAll TrackDetail(string id)
         {
-            SearchAll SA = new SearchAll();
             SeveralTracks tracks = _spotify.GetArtistsTopTracks(id, "US");
             SA.TrackSearch = tracks.Tracks;
 
             return SA;
         }
 
+        //Get recommended tracks based of a tempo and query
+
+        //Potentially make an 'advanced' search form, so instead of tempo search, this would be a general recommendation search
+
         public static SearchAll TempoSearch(float tempo, string artistSearch)
         {
-            SearchAll SA = new SearchAll();
-
             TuneableTrack trackParam = new TuneableTrack();
+
+            trackParam.Tempo = tempo;
             
             SearchItem artist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US");
 
@@ -106,12 +100,33 @@ namespace FunWithWeb.Models.Spotify
                 artistString.Add(fullArt.Id);
             }
 
-            Recommendations recs = _spotify.GetRecommendations(artistString, null, null, trackParam, null, null, 10, "US");
+            Recommendations recs = _spotify.GetRecommendations(artistString, null, null, trackParam, null, null, 25, "US");
 
             List<SimpleTrack> recTracks = recs.Tracks.ToList();
 
-            SA.TrackSearch = SimpleToFull(recTracks);
+            List<SimpleTrack> playTracks = new List<SimpleTrack>();
 
+            float playlistLength = 3600000;
+
+            foreach (SimpleTrack trk in recTracks)
+            {
+                if (playlistLength > 0)
+                {
+                    playlistLength -= trk.DurationMs;
+                    if (playlistLength < 0)
+                    {
+                        playlistLength += trk.DurationMs;
+                        continue;
+                    }
+                    else
+                    {
+                        playTracks.Add(trk);
+                    }
+                }
+            }
+
+            SA.TrackSearch = SimpleToFull(playTracks);
+            
             SA.query = "tempo";
 
             return SA;
@@ -120,8 +135,6 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll AlbumDetail (string id)
         {
-            SearchAll SA = new SearchAll();
-
             SA.AlbumSearch = new List<FullAlbum>();
 
             SA.AlbumSearch.Add(_spotify.GetAlbum(id, "US"));

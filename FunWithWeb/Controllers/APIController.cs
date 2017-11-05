@@ -10,15 +10,27 @@ using System.Threading.Tasks;
 namespace FunWithWeb.Controllers
 {
     public class APIController : Controller
-    {
-        /* Overall design goal would be:
-         * Auth/Search page done kind of, need to figure out auth/cookies
-         * brings results in done
-         * 
-         * play files - not that hard, see https://developer.spotify.com/technologies/widgets/spotify-play-button/
-         * search from DataTest info
-         */
-        
+    {  
+        //checks to see if already authed, if so redirect to landing page
+        public async Task<ActionResult> Auth(string id)
+        {
+            if (Spotify._spotify == null && id == null)
+            {
+                Spotify.SpotAuth();
+
+                return RedirectToAction("Landing");
+            }
+            else if (Spotify._spotify == null && id != null)
+            {
+                Spotify.SpotAuth();
+                return RedirectToAction("Search", new { id = id });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
 
         //index, will auth or go to landing page
         public ActionResult Index()
@@ -44,39 +56,12 @@ namespace FunWithWeb.Controllers
             return View(Spotify.TrackDetail(id));
         }
 
-        //checks to see if already authed, if so redirect to landing page
-        public async Task<ActionResult> Auth(string id)
+        //Shows track list of an album
+
+        public ActionResult AlbumDetail(string id)
         {
-            if (Spotify._spotify == null && id == null)
-            {
-                Spotify.SpotAuth();
-
-                return RedirectToAction("Landing");
-            }
-            else if (Spotify._spotify == null && id != null)
-            {
-                Spotify.SpotAuth();
-                return RedirectToAction("Search", new { id = id });
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-
+            return View("Detail", Spotify.AlbumDetail(id));
         }
-
-        //Why did this give me an error? 
-
-         /*
-        public async Task<ActionResult> Auth(string id)
-        {
-            if (Spotify._spotify == null)
-            {
-                Spotify.SpotAuth();
-            }
-            return RedirectToAction("Search", new { id = id });
-           
-        }*/
 
 
         public ActionResult Search(string id)
@@ -123,14 +108,12 @@ namespace FunWithWeb.Controllers
             return View("Detail",Spotify.TempoSearch(id, artist));
         }
 
+        //Partial view of the spotify player
+
         public ActionResult PlayerPane(string id)
         {
             return PartialView("_PlayerPane", id);
         }
 
-        public ActionResult AlbumDetail(string id)
-        {
-            return View("Detail", Spotify.AlbumDetail(id));
-        }
     }
 }

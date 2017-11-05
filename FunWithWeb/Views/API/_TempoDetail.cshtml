@@ -1,6 +1,14 @@
 ﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
 @{ 
     string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name.ToString();
+    float length = 0;
+
+    foreach (var trk in Model)
+    {
+        length += trk.DurationMs;
+    }
+
+    length = length / 60000;
 }
 <h2>Top 10 Recommendations for @artist</h2>
     <table class="table table-striped">
@@ -27,3 +35,4 @@
             }
         </tbody>
     </table>
+<h3>Total length: @length mins</h3>
