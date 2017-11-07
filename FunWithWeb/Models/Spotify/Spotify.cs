@@ -54,17 +54,17 @@ namespace FunWithWeb.Models.Spotify
         //for a given search parameter, we need Artist, Album, songs returned
         //for that we could have 3 separate methods and return each in a partial view... easy?
 
-        public static SearchAll SpotSearch(string queryString)
+        public static SearchAll SpotSearch(string queryString, string searchType = null)
         {
             SA.ArtistSearch = _spotify.SearchItems(queryString, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
-            List<SimpleAlbum> simpleAlbum = _spotify.SearchItems(queryString, SearchType.Album, 10, 0, "US").Albums.Items.ToList();
-
-            SA.AlbumSearch = SimpleToFull(simpleAlbum);
+            SA.AlbumSearch = SimpleToFull(_spotify.SearchItems(queryString, SearchType.Album, 10, 0, "US").Albums.Items.ToList());
 
             SA.TrackSearch = _spotify.SearchItems(queryString, SearchType.Track, 10, 0, "US").Tracks.Items.ToList();
 
             SA.query = queryString;
+
+            SA.searchType = searchType;
 
             return SA;
         }
@@ -73,8 +73,7 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll TrackDetail(string id)
         {
-            SeveralTracks tracks = _spotify.GetArtistsTopTracks(id, "US");
-            SA.TrackSearch = tracks.Tracks;
+            SA.TrackSearch = _spotify.GetArtistsTopTracks(id, "US").Tracks;
 
             return SA;
         }
@@ -86,23 +85,23 @@ namespace FunWithWeb.Models.Spotify
         public static SearchAll TempoSearch(float tempo, string artistSearch)
         {
             TuneableTrack trackParam = new TuneableTrack();
+            TuneableTrack trackParamMin = new TuneableTrack();
+            TuneableTrack trackParamMax = new TuneableTrack();
 
             trackParam.Tempo = tempo;
-            
-            SearchItem artist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US");
+            trackParamMin.Tempo = .9f * tempo;
+            trackParamMax.Tempo = 1.1f * tempo; 
 
-            List<FullArtist> fullArtist = artist.Artists.Items.ToList();
+            List<FullArtist> fullArtist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US").Artists.Items.ToList();
 
             List<string> artistString = new List<string>();
-
+            
             foreach (FullArtist fullArt in fullArtist)
             {
                 artistString.Add(fullArt.Id);
             }
 
-            Recommendations recs = _spotify.GetRecommendations(artistString, null, null, trackParam, null, null, 25, "US");
-
-            List<SimpleTrack> recTracks = recs.Tracks.ToList();
+            List<SimpleTrack> recTracks = _spotify.GetRecommendations(artistString, null, null, trackParam, trackParamMin, trackParamMax, 25, "US").Tracks.ToList();
 
             List<SimpleTrack> playTracks = new List<SimpleTrack>();
 

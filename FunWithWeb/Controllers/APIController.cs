@@ -64,11 +64,11 @@ namespace FunWithWeb.Controllers
         }
 
 
-        public ActionResult Search(string id)
+        public ActionResult Search(string id, string search)
         {
             if (Spotify._spotify != null)
             {
-                return View(Spotify.SpotSearch(id));
+                return View(Spotify.SpotSearch(id, search));
             }
 
             else
@@ -109,10 +109,11 @@ namespace FunWithWeb.Controllers
         }
 
         //Partial view of the spotify player
-
+        //need to alter to load different players depending on view
+        //album, track, playlist
         public ActionResult PlayerPane(string id)
         {
-            return PartialView("_PlayerPane", id);
+            return PartialView("_PlayerPane", Spotify._spotify.GetTrack(id, "US"));
         }
 
     }

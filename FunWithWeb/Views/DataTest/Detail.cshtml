@@ -16,7 +16,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink(Model.Artist, "Search", "API" , new { id = Model.Artist}, null)
+            @Html.ActionLink(Model.Artist, "Search", "API" , new { id = Model.Artist, search = "artist"}, null)
         </dd>
 
         <dt>
@@ -24,7 +24,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink(Model.Album, "Search", "API", new { id = Model.Album }, null)
+            @Html.ActionLink(Model.Album, "Search", "API", new { id = Model.Album, search = "album" }, null)
         </dd>
 
         <dt>
@@ -32,7 +32,7 @@
         </dt>
 
         <dd>
-            @Html.ActionLink(Model.TrackName, "Search", "API", new { id = Model.TrackName }, null)
+            @Html.ActionLink(Model.TrackName, "Search", "API", new { id = Model.TrackName, search = "track" }, null)
         </dd>
 
         <dt>
