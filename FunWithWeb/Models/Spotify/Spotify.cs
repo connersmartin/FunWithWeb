@@ -71,9 +71,18 @@ namespace FunWithWeb.Models.Spotify
 
         //returns the top tracks for an artist
 
-        public static SearchAll TrackDetail(string id)
+        public static SearchAll TopTrackDetail(string id)
         {
             SA.TrackSearch = _spotify.GetArtistsTopTracks(id, "US").Tracks;
+
+            return SA;
+        }
+
+        //returns specific tracks
+
+        public static SearchAll TrackDetail(List<string> ids)
+        {
+            SA.TrackSearch = _spotify.GetSeveralTracks(ids, "US").Tracks.ToList();
 
             return SA;
         }

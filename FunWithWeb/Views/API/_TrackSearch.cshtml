@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
 
+@{ 
+    List<string> trx = new List<string>();
+    foreach (var trk in Model)
+    {
+        trx.Add(trk.Id.ToString());
+    }
+}
+
     <div class="col-xs-4">
         <table class="table table-striped">
             <thead>
@@ -14,7 +22,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.ActionLink(item.Name, "SearchDetail", new { id = Json.Encode(trx)})
                         </td>
                         <td>
                             @Html.ActionLink(item.Album.Name, "AlbumDetail", new { id = item.Album.Id })

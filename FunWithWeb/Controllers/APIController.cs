@@ -53,7 +53,14 @@ namespace FunWithWeb.Controllers
         //Also need to figure out how to play different 'types'
         public ActionResult Detail(string id)
         {    
-            return View(Spotify.TrackDetail(id));
+            return View(Spotify.TopTrackDetail(id));
+        }
+
+        public ActionResult SearchDetail(string id)
+        {
+            List<string> ids = new List<string>();
+            ids = System.Web.Helpers.Json.Decode<List<string>>(id);
+            return View("Detail", Spotify.TrackDetail(ids));
         }
 
         //Shows track list of an album
