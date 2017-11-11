@@ -3,11 +3,11 @@
 <div class="container">
     <div class="col-xs-6">
         @{ 
-            if(Model.query == "tempo")
+            if(Model.searchType == "tempo")
             {
-               @Html.Partial("_TempoDetail", Model.TrackSearch);
+               @Html.Partial("_TempoDetail", Model);
             }
-            else if(Model.query == "album")
+            else if(Model.searchType == "album")
             {
                 @Html.Partial("_AlbumDetail", Model);
             }

@@ -10,15 +10,15 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Search</h4>
+        <h4><span class="artistSearch">Tempo </span>Search</h4>
         <hr/>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.Editor("id") <span>Search Text or Tempo (Numeric)</span>
+                @Html.Editor("id") <span></span><input type="checkbox" id="tempoSearch" />Tempo search?
             </div>
             <br>
-            <div class="col-md-10">
-                @Html.Editor("artist") <span>Artist search if tempo search</span>
+            <div class="col-md-10 artistSearch">
+                @Html.Editor("artist") <span>Artist search</span>
             </div>
         </div>
 
@@ -29,3 +29,18 @@
         </div>
     </div>
 }
+
+@section Scripts{
+    <script type="text/javascript">
+        $(".artistSearch").hide();
+        $("#tempoSearch").click(function () {
+            if ($(this).is(":checked")) {
+                $(".artistSearch").show();
+            }
+            else {
+                $(".artistSearch").hide();
+            }
+        });
+
+    </script>
+    }

@@ -74,7 +74,7 @@ namespace FunWithWeb.Models.Spotify
         public static SearchAll TopTrackDetail(string id)
         {
             SA.TrackSearch = _spotify.GetArtistsTopTracks(id, "US").Tracks;
-
+            SA.searchType = "";
             return SA;
         }
 
@@ -83,7 +83,7 @@ namespace FunWithWeb.Models.Spotify
         public static SearchAll TrackDetail(List<string> ids)
         {
             SA.TrackSearch = _spotify.GetSeveralTracks(ids, "US").Tracks.ToList();
-
+            SA.searchType = "";
             return SA;
         }
 
@@ -135,7 +135,8 @@ namespace FunWithWeb.Models.Spotify
 
             SA.TrackSearch = SimpleToFull(playTracks);
             
-            SA.query = "tempo";
+            SA.searchType = "tempo";
+            SA.query = artistSearch;
 
             return SA;
            
@@ -149,7 +150,7 @@ namespace FunWithWeb.Models.Spotify
 
             SA.TrackSearch = SimpleToFull(_spotify.GetAlbumTracks(id, 50, 0, "US").Items.ToList());
 
-            SA.query = "album";
+            SA.searchType = "album";
 
             return SA;
         }

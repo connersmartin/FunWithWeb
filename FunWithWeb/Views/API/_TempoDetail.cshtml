@@ -1,9 +1,10 @@
-﻿@model IEnumerable<SpotifyAPI.Web.Models.FullTrack>
+﻿@model FunWithWeb.Models.Spotify.SearchAll
 @{ 
-    string artist = Model.FirstOrDefault().Artists.FirstOrDefault().Name.ToString();
+    string artist = Model.query;
     float length = 0;
 
-    foreach (var trk in Model)
+
+    foreach (var trk in Model.TrackSearch)
     {
         length += trk.DurationMs;
     }
@@ -20,7 +21,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.TrackSearch)
             {
                 <tr>
                     <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>
