@@ -26,7 +26,7 @@
     </div>
 </div>
 
-@Html.ActionLink("Index", "Index")
+@Html.ActionLink("Back to Search Results", null,null,null, new { href = Request.UrlReferrer })
 
 @section Scripts {
     <script type="text/javascript">

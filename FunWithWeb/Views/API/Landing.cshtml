@@ -11,6 +11,14 @@
 
     <div class="form-horizontal">
         <h4><span class="artistSearch">Tempo </span>Search</h4>
+        <p>How to use:
+        <ol>
+            <li class="artistSearch">Enter a Tempo</li>
+            <li class="default">Enter Search text (Artist, Album or Song)</li>
+            <li class="artistSearch">Enter an artist to build a playlist based off that tempo and the artist you selected</li>
+            <li>Click Search</li>
+        </ol>
+        </p>
         <hr/>
         <div class="form-group">
             <div class="col-md-10">
@@ -36,9 +44,11 @@
         $("#tempoSearch").click(function () {
             if ($(this).is(":checked")) {
                 $(".artistSearch").show();
+                $(".default").hide();
             }
             else {
                 $(".artistSearch").hide();
+                $(".default").show();
             }
         });
 

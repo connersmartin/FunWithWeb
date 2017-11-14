@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    bool anything = (Model.ArtistSearch.Count > 0 && Model.AlbumSearch.Count > 0 && Model.TrackSearch.Count > 0);
 }
 
 <h1>Search Results for @Model.query</h1>
@@ -13,7 +14,7 @@
     {
         Html.RenderPartial("_ArtistSearch", Model.ArtistSearch);
     }
-    
+
     if ((Model.searchType == "album" || Model.searchType == null) && Model.AlbumSearch.Count > 0)
     {
         Html.RenderPartial("_AlbumSearch", Model.AlbumSearch);
@@ -23,7 +24,12 @@
     {
         Html.RenderPartial("_TrackSearch", Model.TrackSearch);
     }
+
+    if (!anything)
+    {
+        <h2>No results!</h2>
+    }
 }
 </div>
 
-@Html.ActionLink("Index","Index")
+@Html.ActionLink("Back to search","Index")
