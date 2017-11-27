@@ -18,9 +18,7 @@ namespace FunWithWeb.Models.Spotify
         }
 
         public static SpotifyWebAPI _spotify;
-
-        public static SearchAll SA = new SearchAll();
-      
+       
 
         //Auth prob 1. a better way to implement, 2. a better place to put this, 3. need to figure out exactly how this works
 
@@ -56,6 +54,8 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll SpotSearch(string queryString, string searchType = null)
         {
+            SearchAll SA = new SearchAll();
+
             SA.ArtistSearch = _spotify.SearchItems(queryString, SearchType.Artist, 10, 0, "US").Artists.Items.ToList();
 
             SA.AlbumSearch = SimpleToFull(_spotify.SearchItems(queryString, SearchType.Album, 10, 0, "US").Albums.Items.ToList());
@@ -73,8 +73,9 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll TopTrackDetail(string id)
         {
+            SearchAll SA = new SearchAll();
+
             SA.TrackSearch = _spotify.GetArtistsTopTracks(id, "US").Tracks;
-            SA.searchType = "";
             return SA;
         }
 
@@ -82,8 +83,9 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll TrackDetail(List<string> ids)
         {
+            SearchAll SA = new SearchAll();
+
             SA.TrackSearch = _spotify.GetSeveralTracks(ids, "US").Tracks.ToList();
-            SA.searchType = "";
             return SA;
         }
 
@@ -93,13 +95,17 @@ namespace FunWithWeb.Models.Spotify
 
         public static SearchAll TempoSearch(float tempo, string artistSearch)
         {
+            SearchAll SA = new SearchAll();
+
             TuneableTrack trackParam = new TuneableTrack();
             TuneableTrack trackParamMin = new TuneableTrack();
             TuneableTrack trackParamMax = new TuneableTrack();
 
             trackParam.Tempo = tempo;
             trackParamMin.Tempo = .9f * tempo;
-            trackParamMax.Tempo = 1.1f * tempo; 
+            trackParamMax.Tempo = 1.1f * tempo;
+
+            SA.tempo = tempo;
 
             List<FullArtist> fullArtist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US").Artists.Items.ToList();
 
@@ -133,6 +139,8 @@ namespace FunWithWeb.Models.Spotify
                 }
             }
 
+            SA.length = PlaylistTime(SimpleToFull(playTracks));
+
             SA.TrackSearch = SimpleToFull(playTracks);
             
             SA.searchType = "tempo";
@@ -142,8 +150,32 @@ namespace FunWithWeb.Models.Spotify
            
         }
 
+        public static SearchAll Playlist(SearchAll tracks)
+        {
+
+            string uID = _spotify.GetPrivateProfile().Id;
+
+            string pName = tracks.query + "_" + tracks.tempo + "BPM_" + DateTime.Now.ToShortDateString();
+           
+            SearchAll SA = new SearchAll();
+
+            List<string> trackUri = new List<string>();
+
+            FullPlaylist pList = _spotify.CreatePlaylist(uID, pName, false);
+
+            foreach (FullTrack ft in tracks.TrackSearch)
+            {
+                trackUri.Add(ft.Uri);
+            }
+
+            _spotify.AddPlaylistTracks(uID, pList.Id, trackUri, null);
+
+            return SA;
+        }
         public static SearchAll AlbumDetail (string id)
         {
+            SearchAll SA = new SearchAll();
+
             SA.AlbumSearch = new List<FullAlbum>();
 
             SA.AlbumSearch.Add(_spotify.GetAlbum(id, "US"));
@@ -182,6 +214,32 @@ namespace FunWithWeb.Models.Spotify
             }
 
             return full;
+        }
+
+        public static string PlaylistTime(List<FullTrack> tracks)
+        {
+            string playtime = "";
+
+            string limit = ":";
+
+            float length = 0;
+
+            foreach (FullTrack track in tracks)
+            {
+                length+=track.DurationMs;
+            }
+
+            float minute = (int)(length / 60000);
+            float second = (int)(((length/60000) - minute) * 100) / 60;
+
+            if (second < 10)
+            {
+                limit += "0";
+            }
+
+            playtime = minute + limit + second;
+
+            return playtime;
         }
 
 

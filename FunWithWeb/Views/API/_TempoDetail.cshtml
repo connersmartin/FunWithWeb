@@ -1,17 +1,6 @@
 ﻿@model FunWithWeb.Models.Spotify.SearchAll
-@{ 
-    string artist = Model.query;
-    float length = 0;
 
-
-    foreach (var trk in Model.TrackSearch)
-    {
-        length += trk.DurationMs;
-    }
-
-    length = length / 60000;
-}
-<h2>Top 10 Recommendations for @artist</h2>
+<h2>Top 10 Recommendations for @Model.query</h2>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -36,4 +25,5 @@
             }
         </tbody>
     </table>
-<h3>Total length: @length mins</h3>
+<h3>Total length: @Model.length minutes</h3>
+<button id="playlist">Click me to make a playlist</button>
