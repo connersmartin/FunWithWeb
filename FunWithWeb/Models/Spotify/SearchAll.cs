@@ -15,7 +15,7 @@ namespace FunWithWeb.Models.Spotify
         public SearchAll() {
 
         }
-        public float tempo { get; set; }
+        public string tempo { get; set; }
         public string length { get; set; }
         public string searchType { get; set; }
         public string query { get; set; }

@@ -1,29 +1,39 @@
 ﻿@model FunWithWeb.Models.Spotify.SearchAll
 
-<h2>Top 10 Recommendations for @Model.query</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Track Results</th>
-                <th>Artist</th>
-                <th>Album</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.TrackSearch)
-            {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h2>Top 10 Recommendations for @Html.Hidden("artist", Model.query)@Model.query</h2>
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>
-                    <td>
-                        @foreach (var art in item.Artists)
-                        {
-                            @Html.ActionLink(art.Name, "Detail", new { id = art.Id })<span> </span>
-                        }
-                    </td>
-                    <td>@Html.ActionLink(item.Album.Name, "AlbumDetail", new { id = item.Album.Id })</td>
+                    <th>Track Results</th>
+                    <th>Artist</th>
+                    <th>Album</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-<h3>Total length: @Model.length minutes</h3>
-<button id="playlist">Click me to make a playlist</button>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.TrackSearch)
+                {
+                    <tr>
+                        <td class="trackID" id="@item.Id"><a href="#">@Html.DisplayFor(modelItem => item.Name)</a></td>
+                        <td>
+                            @foreach (var art in item.Artists)
+                            {
+                                @Html.ActionLink(art.Name, "Detail", new { id = art.Id })<span> </span>
+                            }
+                        </td>
+                        <td>@Html.ActionLink(item.Album.Name, "AlbumDetail", new { id = item.Album.Id })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    <h3>Total length: @Model.length minutes</h3>
+    <h3>Tempo: @Html.Hidden("tempo", Model.tempo)@Model.tempo</h3>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Click me to create a playlist" class="btn btn-default" />
+        </div>
+    </div>
+}

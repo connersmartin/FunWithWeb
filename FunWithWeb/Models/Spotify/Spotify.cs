@@ -28,7 +28,7 @@ namespace FunWithWeb.Models.Spotify
                "http://localhost",
                8888,
                "873024ff9d744bef8d16db221ca61ab1",
-               Scope.UserReadPrivate,
+               Scope.PlaylistModifyPrivate,
                TimeSpan.FromSeconds(20)
                );
 
@@ -105,7 +105,7 @@ namespace FunWithWeb.Models.Spotify
             trackParamMin.Tempo = .9f * tempo;
             trackParamMax.Tempo = 1.1f * tempo;
 
-            SA.tempo = tempo;
+            SA.tempo = tempo.ToString();
 
             List<FullArtist> fullArtist = _spotify.SearchItems(artistSearch, SearchType.Artist, 1, 0, "US").Artists.Items.ToList();
 
@@ -150,14 +150,11 @@ namespace FunWithWeb.Models.Spotify
            
         }
 
-        public static SearchAll Playlist(SearchAll tracks)
+        public static void Playlist(SearchAll tracks)
         {
-
             string uID = _spotify.GetPrivateProfile().Id;
 
             string pName = tracks.query + "_" + tracks.tempo + "BPM_" + DateTime.Now.ToShortDateString();
-           
-            SearchAll SA = new SearchAll();
 
             List<string> trackUri = new List<string>();
 
@@ -170,7 +167,6 @@ namespace FunWithWeb.Models.Spotify
 
             _spotify.AddPlaylistTracks(uID, pList.Id, trackUri, null);
 
-            return SA;
         }
         public static SearchAll AlbumDetail (string id)
         {

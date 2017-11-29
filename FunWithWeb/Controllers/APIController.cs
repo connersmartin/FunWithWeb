@@ -115,6 +115,14 @@ namespace FunWithWeb.Controllers
             return View("Detail",Spotify.TempoSearch(id, artist));
         }
 
+        [HttpPost]
+        public ActionResult Tempo(string tempo, string artist)
+        {
+            Spotify.Playlist(Spotify.TempoSearch(float.Parse(tempo), artist));
+
+            return View("Detail", Spotify.TempoSearch(float.Parse(tempo), artist));
+        }
+
         //Partial view of the spotify player
         //need to alter to load different players depending on view
         //album, track, playlist
